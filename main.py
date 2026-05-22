@@ -105,6 +105,7 @@ async def update_expense(id, date=None, amount=None, category=None, subcategory=
 
     async with aiosqlite.connect(DB_PATH) as c:
         cur = await c.execute(query, params)
+        await c.commit()
         if cur.rowcount == 0:
             return {"status": "error", "message": f"No expense found with id {id}."}
         return {"status": "ok", "updated_id": id, "rows_affected": cur.rowcount}
